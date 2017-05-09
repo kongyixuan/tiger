@@ -13,20 +13,25 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
         http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd">
 	<mvc:annotation-driven>
+	<!-- 设定字符集和json处理类 -->
 		<mvc:message-converters>
 			<bean
 				class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
 			<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
 			<bean
 				class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
-			<bean
-				class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			<!-- jackson的配置 -->
+			<!-- <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" /> -->
+		 <!-- fastjson配置 -->
+		 <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/> 
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
 	<context:component-scan base-package="com.cn">
+<!--    指定包下的包含@Controller的注解的类 -->
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
+	<!-- 	去除@service注解的类  这些类在spring—mybatis.xml进行注解扫描-->
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -35,7 +40,8 @@
 	</aop:aspectj-autoproxy>
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<!-- 支持JSON数据格式 -->
-	<bean
+	<!-- jackson配置 -->
+	<!-- <bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -45,8 +51,38 @@
 	</bean>
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-	</bean>
-
+	</bean> -->
+<!-- fastjson配置 -->
+<bean  
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/><!-- 解析导出文件byte流 -->   
+                <ref bean="fastJsonHttpMessageConverter" />  
+    <!--  
+                <ref bean="mappingJacksonHttpMessageConverter" /> 
+     -->  
+            </list>  
+        </property>  
+    </bean>  
+    <!--<bean id="mappingJacksonHttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+    </bean>-->  
+    <!-- 使用fastJson来支持JSON数据格式 -->  
+    <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">  
+                <property name="supportedMediaTypes">  
+                    <list>  
+                        <value>text/html;charset=UTF-8</value>  
+                        <value>application/json</value>  
+                    </list>  
+                </property>  
+                <property name="features">  
+                    <list>  
+                        <value>WriteMapNullValue</value>  
+                        <value>QuoteFieldNames</value>  
+                    </list>  
+                </property>  
+      </bean>  
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -1,5 +1,5 @@
-E:\shixiMyeclipse\maven_shiro\src\main\java\com\service\impl\UserServiceImpl.java
-E:\shixiMyeclipse\maven_shiro\src\main\java\com\dao\UserDao.java
-E:\shixiMyeclipse\maven_shiro\src\main\java\com\controller\UserController.java
-E:\shixiMyeclipse\maven_shiro\src\main\java\com\service\UserService.java
-E:\shixiMyeclipse\maven_shiro\src\main\java\com\entity\User.java
+D:\git\java\maven_shiro\src\main\java\com\cn\user\controller\UserController.java
+D:\git\java\maven_shiro\src\main\java\com\cn\entity\User.java
+D:\git\java\maven_shiro\src\main\java\com\cn\user\dao\UserDao.java
+D:\git\java\maven_shiro\src\main\java\com\cn\user\service\impl\UserServiceImpl.java
+D:\git\java\maven_shiro\src\main\java\com\cn\user\service\UserService.java
